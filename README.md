@@ -183,8 +183,8 @@ prometheusSpec
 ```shell
 $ helm install prometheus kps/kube-prometheus-stack --namespace monitoring -f kps.yaml
 ```
-12 - Tente fazer uma chamada para o 
-13 - Acesse o os Logs do Prometheus e verifique se os arquivos estão sendo enviados e depois acesse o Thanos Query FrontEnd e verifique se as informações referentes aos cluster estão lá.
+
+12 - Acesse o os Logs do Prometheus e verifique se os arquivos estão sendo enviados e depois acesse o Thanos Query FrontEnd e verifique se as informações referentes aos cluster estão lá.
 
 ## URLs
 https://medium.com/oracledevs/deploy-thanos-receive-with-native-oci-object-storage-on-kubernetes-829326ea0bc6
