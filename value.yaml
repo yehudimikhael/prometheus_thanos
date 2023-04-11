@@ -1,0 +1,65 @@
+# global:
+#   external_labels:
+#     [ cluster: qa ]
+
+objstoreConfig: |-
+  type: AZURE
+  config:
+    storage_account: 'monitoringconcrete'
+    storage_account_key: 'r6UpT+O+sXx4Tn5ZtIJTORlEV1RgTiirl5DybHGfK08XlOoR8a3lj0CvQrwmis4FIVBFVwH1dyzo+AStb+jSDQ=='
+    container: 'metrics'
+query:
+  dnsDiscovery:
+    enabled: true
+    sidecarsService:  thanos-receive
+    sidecarsNamespace: monitoring
+  replicaLabel: ["ngpr-qa"]
+  stores:
+    #- prometheus-kube-prometheus-thanos-discovery.monitoring.svc:10901
+    - thanos-receive:10901
+bucketweb:
+  enabled: true
+
+receive:
+  enabled: true
+  type: LoadBalancer
+  ingress:
+    enabled: true
+
+
+compactor:
+  enabled: true
+  config: |-
+    volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          secret:
+            secretName: thanos-objstore-config
+
+storegateway:
+  enabled: true
+ruler:
+  enabled: true
+  alertmanagers:
+    - http://alertmanager-operated:9093
+  config: |-
+    groups:
+      - name: "monitoring"
+        rules:
+          - alert: "PrometheusDown"
+            expr: absent(up{prometheus="monitoring/kube-prometheus"})
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+minio:
+  enabled: true
+  auth:
+    rootPassword: minio123
+    rootUser: minio
+  monitoringBuckets: thanos
+  accessKey:
+    password: minio
+  secretKey:
+    password: minio123

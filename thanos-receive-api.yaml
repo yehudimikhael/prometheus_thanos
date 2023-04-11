@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: thanos-receive-api
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/component: receive
+    app.kubernetes.io/instance: thanos
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: thanos
+    helm.sh/chart: thanos-12.4.2
+  annotations:
+    meta.helm.sh/release-name: thanos
+    meta.helm.sh/release-namespace: monitoring
+  selfLink: /api/v1/namespaces/monitoring/services/thanos-receive
+status:
+  loadBalancer: {}
+spec:
+  ports:
+    - name: remote
+      protocol: TCP
+      port: 19291
+      targetPort: 19291
+  selector:
+    app.kubernetes.io/component: receive
+    app.kubernetes.io/instance: thanos
+    app.kubernetes.io/name: thanos
+  #type: LoadBalancer
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: thanos-receive-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/service-upstream: "true"
+status:
+  loadBalancer:
+    ingress:
+      - ip: XX.YY.ZZZ.WWWW  # IP do Load Balance
+spec:
+  defaultBackend:
+    resource:
+      kind: Service
+      name: thanos-receive-api
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path:  /thanos(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: thanos-receive-api
+                port:
+                  number: 19291
