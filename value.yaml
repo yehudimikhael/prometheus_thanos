@@ -5,8 +5,8 @@
 objstoreConfig: |-
   type: AZURE
   config:
-    storage_account: 'monitoringconcrete'
-    storage_account_key: 'r6UpT+O+sXx4Tn5ZtIJTORlEV1RgTiirl5DybHGfK08XlOoR8a3lj0CvQrwmis4FIVBFVwH1dyzo+AStb+jSDQ=='
+    storage_account: 'XXXXXXXXXX'
+    storage_account_key: 'XXXXXXXXX'
     container: 'metrics'
 query:
   dnsDiscovery:
